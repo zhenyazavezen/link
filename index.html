@@ -46,7 +46,29 @@
 </head>
 <body>
 
-    <a class="btn" href="https://www.instagram.com/zhenya_zavezen" target="_blank" rel="noopener">Открыть в Instagram</a>
+    <a id="igBtn" class="btn" href="https://www.instagram.com/zhenya_zavezen">Открыть в Instagram</a>
+
+    <script>
+        (function() {
+            var username = "zhenya_zavezen";
+            var webUrl = "https://www.instagram.com/" + username;
+            var btn = document.getElementById("igBtn");
+
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+            var isAndroid = /Android/i.test(ua);
+            var isiOS = /iPhone|iPad|iPod/i.test(ua);
+
+            if (isAndroid) {
+                // Прямой Android Intent для пробития встроенного браузера TikTok
+                btn.href = "intent://instagram.com/_u/" + username + "/#Intent;package=com.instagram.android;scheme=https;S.browser_fallback_url=" + encodeURIComponent(webUrl) + ";end";
+            } else if (isiOS) {
+                // Диплинк для iOS
+                btn.href = "instagram://user?username=" + username;
+            } else {
+                btn.href = webUrl;
+            }
+        })();
+    </script>
 
 </body>
 </html>
