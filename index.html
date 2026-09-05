@@ -3,78 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instagram — Евгений Завезен</title>
+  <title>Instagram</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
-      background-color: #0d0d0d;
+      background-color: #0c0c0e;
       color: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       min-height: 100vh;
       margin: 0;
       padding: 20px;
-      box-sizing: border-box;
-      text-align: center;
     }
     .card {
-      background: #1a1a1a;
-      padding: 30px 20px;
+      background: #18181c;
+      border: 1px solid #2a2a32;
       border-radius: 20px;
-      max-width: 340px;
+      padding: 30px 20px;
       width: 100%;
-      border: 1px solid #2a2a2a;
+      max-width: 340px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     }
-    h2 { margin: 0 0 10px 0; font-size: 20px; }
-    p { color: #8e8e93; font-size: 14px; margin-bottom: 25px; line-height: 1.4; }
+    h2 {
+      margin: 0 0 8px 0;
+      font-size: 20px;
+    }
+    p {
+      color: #8e8e93;
+      font-size: 14px;
+      margin: 0 0 24px 0;
+      line-height: 1.4;
+    }
     .btn {
       display: block;
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      width: 100%;
+      background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);
       color: #ffffff;
       text-decoration: none;
-      font-weight: 600;
+      font-weight: bold;
       font-size: 16px;
       padding: 15px;
       border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
+    }
+    .btn:active {
+      transform: scale(0.98);
     }
     .hint {
       margin-top: 20px;
       font-size: 12px;
-      color: #666;
+      color: #777788;
       line-height: 1.4;
+    }
+    .hint b {
+      color: #aaaaff;
     }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <h2>Евгений Завезен</h2>
-    <p>Нажмите на кнопку ниже, чтобы открыть профиль в приложении Instagram</p>
-    
-    <a id="instaBtn" class="btn" href="#">Перейти в Instagram</a>
+    <h2>Переход в Instagram</h2>
+    <p>Нажмите на кнопку ниже, чтобы открыть профиль</p>
+
+    <a id="instaBtn" class="btn" href="https://www.instagram.com/zhenya_zavezen/">Открыть Instagram</a>
 
     <div class="hint">
-      Если приложение не открылось автоматически, нажмите <b>⋮</b> вверху экрана и выберите <b>«Открыть в браузере»</b>.
+      Если открылся сайт: нажмите <b>⋮</b> (три точки) вверху экрана и выберите <b>«Открыть в браузере»</b>.
     </div>
   </div>
 
   <script>
     const username = "zhenya_zavezen";
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
     const btn = document.getElementById("instaBtn");
 
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
     if (isAndroid) {
-      // Для Android: правильная прямая команда для открытия приложения
+      // Прямой вызов приложения для Android
       btn.href = `intent://instagram.com/_u/${username}/#Intent;package=com.instagram.android;scheme=https;end`;
     } else if (isiOS) {
-      // Для iPhone
+      // Прямой вызов приложения для iPhone
       btn.href = `instagram://user?username=${username}`;
-    } else {
-      // Для ПК и обычных браузеров
-      btn.href = `https://www.instagram.com/${username}/`;
     }
   </script>
 
