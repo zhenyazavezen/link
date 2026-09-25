@@ -1,265 +1,317 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spanish Dele Dana</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Spanish Dele Dana</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root{
+    --yellow:#ffd100;
+    --maroon:#800000;
+    --maroon-light:#a00000;
+    --red:#c91b29;
+    --telegram:#0088cc;
+    --viber:#6a1b9a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+  html,body{height:100%;}
+  body{
+    background:linear-gradient(180deg,#ffd100 0%,#ffda33 100%);
+    color:#333;
+    padding:16px 14px 40px;
+    text-align:center;
+    min-height:100vh;
+  }
+  .page{display:none;animation:fadeIn .25s ease;}
+  .page.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 
-    body {
-      background-color: #ffd100;
-      color: #333;
-      padding: 15px;
-      text-align: center;
-    }
+  /* Header */
+  .header{margin-bottom:18px;padding-top:6px;}
+  .logo-title{
+    font-size:30px;font-weight:900;color:var(--maroon);
+    text-transform:uppercase;line-height:1.05;letter-spacing:.5px;
+  }
+  .logo-title span{display:block;font-size:16px;color:var(--red);letter-spacing:2px;}
+  .logo-subtitle{font-size:13.5px;color:#5c4a1a;margin-top:6px;font-weight:600;}
 
-    /* Экраны */
-    .page {
-      display: none;
-    }
+  /* Hero card */
+  .hero-card{
+    background:rgba(255,255,255,.45);
+    border-radius:20px;padding:16px;margin-bottom:18px;
+    border:1px solid rgba(128,0,0,.12);
+    backdrop-filter:blur(2px);
+  }
+  .hero-title{font-size:17px;font-weight:800;color:var(--maroon);margin-bottom:6px;}
+  .hero-text{font-size:13.5px;color:#4a3c14;line-height:1.4;}
 
-    .page.active {
-      display: block;
-    }
+  /* Buttons */
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;padding:15px;margin:10px 0;
+    background:var(--maroon);color:#fff;text-decoration:none;
+    border-radius:14px;font-weight:800;font-size:15.5px;border:none;cursor:pointer;
+    box-shadow:0 4px 10px rgba(128,0,0,.28);
+    transition:transform .1s ease,box-shadow .1s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-secondary{background:#fff;color:var(--maroon);border:2px solid var(--maroon);box-shadow:0 3px 8px rgba(0,0,0,.08);}
+  .btn-accent{background:linear-gradient(135deg,var(--maroon),var(--maroon-light));text-transform:uppercase;font-size:15px;}
+  .btn-outline{background:var(--red);box-shadow:0 4px 10px rgba(201,27,41,.3);}
+  .btn-small{padding:12px;font-size:14px;}
 
-    /* Шапка */
-    .header {
-      margin-bottom: 20px;
-    }
+  /* Section headers */
+  .section-header{
+    background:var(--red);color:#fff;padding:16px;font-size:22px;font-weight:800;
+    border-radius:16px;margin-bottom:14px;box-shadow:0 4px 10px rgba(0,0,0,.15);
+  }
+  .section-sub{font-size:13px;color:#5c4a1a;margin-bottom:16px;font-weight:600;}
 
-    .logo-title {
-      font-size: 28px;
-      font-weight: 900;
-      color: #800000;
-      text-transform: uppercase;
-      line-height: 1.1;
-    }
+  .quote-box{
+    font-style:italic;font-size:14px;color:var(--maroon);margin-bottom:20px;
+    font-weight:600;padding:0 6px;line-height:1.45;
+  }
 
-    .logo-subtitle {
-      font-size: 14px;
-      color: #555;
-      margin-top: 5px;
-      font-weight: 600;
-    }
+  /* Reviews grid */
+  .reviews-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:22px;
+  }
+  .review-card{
+    background:#fff;border-radius:14px;padding:10px;
+    box-shadow:0 4px 8px rgba(0,0,0,.12);font-size:11.5px;color:#444;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    min-height:110px;text-align:center;gap:4px;
+  }
+  .review-card .stars{color:#f5b400;font-size:14px;}
+  .review-card .heart{font-size:20px;}
 
-    /* Карточка */
-    .hero-card {
-      background: rgba(255, 255, 255, 0.4);
-      border-radius: 20px;
-      padding: 15px;
-      margin-bottom: 20px;
-      border: 1px solid rgba(128, 0, 0, 0.1);
-    }
+  .buttons-group{display:flex;gap:10px;justify-content:center;margin-top:10px;}
+  .buttons-group .btn{margin:0;}
 
-    .hero-title {
-      font-size: 17px;
-      font-weight: bold;
-      color: #800000;
-      margin-bottom: 8px;
-    }
+  /* Contact block */
+  .contact-block{
+    margin-top:24px;background:#fff;border-radius:18px;padding:16px;
+    box-shadow:0 4px 12px rgba(0,0,0,.06);
+  }
+  .contact-title{font-size:13.5px;color:#666;margin-bottom:10px;font-weight:700;}
+  .btn-telegram{background:var(--telegram);color:#fff;}
+  .btn-viber{background:var(--viber);color:#fff;}
 
-    /* Кнопки */
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 16px;
-      margin: 12px 0;
-      background-color: #800000;
-      color: #ffffff;
-      text-decoration: none;
-      border-radius: 12px;
-      font-weight: 800;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(128, 0, 0, 0.25);
-      transition: transform 0.1s ease;
-    }
+  /* Levels */
+  .level-card{
+    background:rgba(255,255,255,.55);border-radius:16px;padding:14px;margin-bottom:12px;
+    text-align:left;box-shadow:0 3px 8px rgba(0,0,0,.08);border:1px solid rgba(128,0,0,.1);
+  }
+  .level-badge{
+    display:inline-block;background:var(--red);color:#fff;font-weight:800;font-size:13px;
+    padding:5px 12px;border-radius:8px;margin-bottom:8px;
+  }
+  .level-card p{font-size:13px;color:#4a3c14;line-height:1.45;margin-bottom:6px;}
+  .level-card p:last-child{margin-bottom:0;color:#7a5c00;font-weight:600;}
 
-    .btn:active {
-      transform: scale(0.98);
-    }
+  /* Pricing */
+  .price-block{
+    background:rgba(255,255,255,.6);border-radius:18px;padding:16px;margin-bottom:16px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);text-align:left;
+  }
+  .price-block-title{
+    display:flex;align-items:center;gap:8px;
+    background:var(--red);color:#fff;font-weight:800;font-size:14.5px;
+    padding:10px 12px;border-radius:12px;margin-bottom:12px;
+  }
+  .price-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:9px 4px;border-bottom:1px solid rgba(128,0,0,.08);font-size:13.5px;color:#333;
+  }
+  .price-row:last-child{border-bottom:none;}
+  .price-row .label{font-weight:600;}
+  .price-row .value{font-weight:800;color:var(--maroon);font-size:15px;white-space:nowrap;}
+  .price-row .value small{font-weight:600;font-size:10.5px;color:#8a7040;display:block;}
 
-    .btn-secondary {
-      background-color: #ffffff;
-      color: #800000;
-      border: 2px solid #800000;
-    }
+  .tariff-tabs{display:flex;gap:8px;margin-bottom:16px;}
+  .tariff-tab{
+    flex:1;padding:10px 4px;background:#fff;border:2px solid var(--maroon);
+    border-radius:10px;font-size:12px;font-weight:800;color:var(--maroon);cursor:pointer;
+  }
+  .tariff-tab.active{background:var(--maroon);color:#fff;}
 
-    .btn-accent {
-      background: linear-gradient(135deg, #800000, #a00000);
-      text-transform: uppercase;
-    }
-
-    /* Раздел отзывов */
-    .reviews-header {
-      background: #c91b29;
-      color: #ffffff;
-      padding: 15px;
-      font-size: 22px;
-      font-weight: 800;
-      border-radius: 14px;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    .quote-box {
-      font-style: italic;
-      font-size: 14px;
-      color: #800000;
-      margin-bottom: 20px;
-      font-weight: 600;
-      padding: 0 10px;
-    }
-
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 25px;
-    }
-
-    .reviews-grid img {
-      width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      object-fit: cover;
-    }
-
-    .buttons-group {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 10px;
-    }
-
-    .btn-review {
-      background-color: #c91b29;
-      color: #ffffff;
-      border: none;
-      padding: 14px 10px;
-      border-radius: 12px;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      flex: 1;
-      box-shadow: 0 4px 10px rgba(201, 27, 41, 0.3);
-    }
-
-    .btn-home {
-      background-color: #800000;
-    }
-
-    /* Блок соцсетей */
-    .contact-block {
-      margin-top: 25px;
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    .contact-title {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-
-    .btn-telegram { background-color: #0088cc; color: white; }
-    .btn-viber { background-color: #6a1b9a; color: white; }
-  </style>
+  .footer-space{height:6px;}
+</style>
 </head>
 <body>
 
-  <!-- СТРАНИЦА 1: ГЛАВНАЯ -->
-  <div id="main-page" class="page active">
-    <div class="header">
-      <div class="logo-title">Spanish<br>Dele Dana 🇪🇸</div>
-      <div class="logo-subtitle">Онлайн-школа іспанської мови Богдани Пономарьової</div>
+<!-- ================= ГЛАВНАЯ ================= -->
+<div id="main-page" class="page active">
+  <div class="header">
+    <div class="logo-title">Spanish<span>— Dele —</span>Dana 🇪🇸</div>
+    <div class="logo-subtitle">Онлайн-школа іспанської мови Богдани Пономарьової</div>
+  </div>
+
+  <div class="hero-card">
+    <div class="hero-title">Твій легкий старт у вивченні іспанської!</div>
+    <div class="hero-text">Запишись на безкоштовний пробний урок вже сьогодні і зроби перший крок до вільної іспанської 🇪🇸</div>
+  </div>
+
+  <button class="btn btn-accent" onclick="openLink('https://t.me/bp0602')">🎯 Записатись на БЕЗОПЛАТНИЙ пробний урок</button>
+  <button class="btn" onclick="showPage('pricing-page')">📊 Тарифи &amp; ціни</button>
+  <button class="btn btn-secondary" onclick="showPage('reviews-page')">💬 Відгуки моїх студентів</button>
+  <button class="btn btn-secondary" onclick="showPage('levels-page')">📚 Які є рівні іспанської</button>
+
+  <div class="contact-block">
+    <div class="contact-title">Написати особисто:</div>
+    <button class="btn btn-telegram" style="margin:6px 0;" onclick="openLink('https://t.me/bp0602')">✈️ в Telegram</button>
+    <button class="btn btn-viber" style="margin:6px 0;" onclick="openLink('https://viber.click')">💜 у Viber</button>
+  </div>
+</div>
+
+<!-- ================= ОТЗЫВЫ ================= -->
+<div id="reviews-page" class="page">
+  <div class="section-header">Відгуки моїх студентів</div>
+  <div class="quote-box">"Найкращий час почати вивчати мову був учора. Другий найкращий — сьогодні."</div>
+
+  <div class="reviews-grid">
+    <div class="review-card"><span class="heart">💌</span><span>«Дуже приємно, що вчителька любить і завжди чекає на уроки!»</span></div>
+    <div class="review-card"><span class="heart">🙏</span><span>«Хочу подякувати за підхід до навчання іспанської!»</span></div>
+    <div class="review-card"><div class="stars">★★★★★</div><span>«Мені дуже сподобалось! Мала досвід, але з вами мені супер»</span></div>
+    <div class="review-card"><div class="stars">★★★★★</div><span>«Дуже дякую за результат і за увагу до кожної деталі»</span></div>
+  </div>
+
+  <div class="buttons-group">
+    <button class="btn btn-outline" onclick="openLink('https://t.me/bp0602')">Лишити відгук!)</button>
+    <button class="btn" onclick="showPage('main-page')">На головну</button>
+  </div>
+</div>
+
+<!-- ================= РІВНІ ================= -->
+<div id="levels-page" class="page">
+  <div class="section-header">Рівні в іспанській мові</div>
+
+  <div class="level-card">
+    <div class="level-badge">A1 · Початковий рівень</div>
+    <p>Розуміння простих слів і фраз. Можна представитися, сказати ім'я, вік, країну, поставити прості запитання.</p>
+    <p>Потрібен для початку навчання або підтвердження базових знань.</p>
+  </div>
+
+  <div class="level-card">
+    <div class="level-badge">A2 · Базовий рівень</div>
+    <p>Розуміння простих текстів і розмов на знайомі теми: покупки, робота, сім'я, подорожі.</p>
+    <p>Іноді вимагають для проживання або базової роботи в Іспанії.</p>
+  </div>
+
+  <div class="level-card">
+    <div class="level-badge">B1 · Середній рівень</div>
+    <p>Підтримка розмови на знайомі теми, розуміння основної ідеї текстів. Написання текстів про досвід, події, подорожі.</p>
+    <p>Потрібен для деяких навчальних програм і роботи в іспаномовному середовищі.</p>
+  </div>
+
+  <div class="level-card">
+    <div class="level-badge">B2 · Вище середнього</div>
+    <p>Розуміння складних текстів, новин, фільмів. Вільне спілкування з носіями мови, аргументація думки.</p>
+    <p>Часто вимагають університети для навчання в Іспанії.</p>
+  </div>
+
+  <div class="level-card">
+    <div class="level-badge">C1 · Просунутий рівень</div>
+    <p>Легке розуміння складних текстів, академічних матеріалів і професійної лексики.</p>
+    <p>Потрібен для складних спеціальностей і наукової роботи.</p>
+  </div>
+
+  <div class="level-card">
+    <div class="level-badge">C2 · Найвищий рівень</div>
+    <p>Рівень майже як у носія мови. Розуміння практично будь-якої інформації.</p>
+    <p>Іноді потрібен для викладання мови, перекладу чи наукової діяльності.</p>
+  </div>
+
+  <button class="btn btn-accent" onclick="openLink('https://t.me/bp0602')">Записатись на пробний урок</button>
+  <button class="btn btn-secondary" onclick="showPage('main-page')">На головну</button>
+</div>
+
+<!-- ================= ТАРИФИ ================= -->
+<div id="pricing-page" class="page">
+  <div class="section-header">Тарифи та ціни</div>
+  <div class="section-sub">Обирайте потрібний Вам формат та записуйтесь на безкоштовний пробний урок!</div>
+
+  <button class="btn btn-accent" onclick="openLink('https://t.me/bp0602')">Записатись на пробний урок</button>
+
+  <div class="tariff-tabs">
+    <button class="tariff-tab active" onclick="showTariff('basic',this)">Базова</button>
+    <button class="tariff-tab" onclick="showTariff('dele',this)">DELE</button>
+    <button class="tariff-tab" onclick="showTariff('business',this)">Бізнес</button>
+  </div>
+
+  <!-- Базовая -->
+  <div id="tariff-basic" class="tariff-block">
+    <div class="price-block">
+      <div class="price-block-title">📘 Рівні з нуля до A2</div>
+      <div class="price-row"><span class="label">Індивідуальний урок</span><span class="value">790 грн</span></div>
+      <div class="price-row"><span class="label">Парний урок</span><span class="value">549 грн<small>з людини</small></span></div>
+      <div class="price-row"><span class="label">Груповий урок</span><span class="value">390 грн<small>з людини</small></span></div>
     </div>
-
-    <div class="hero-card">
-      <div class="hero-title">Твій легкий старт у вивченні іспанської!</div>
-      <p style="font-size: 14px; color: #444;">Запишись на безкоштовний пробний урок вже сьогодні.</p>
+    <div class="price-block">
+      <div class="price-block-title">🎓 Рівні B1–B2</div>
+      <div class="price-row"><span class="label">Індивідуальний урок</span><span class="value">990 грн</span></div>
+      <div class="price-row"><span class="label">Парний урок</span><span class="value">690 грн<small>з людини</small></span></div>
+      <div class="price-row"><span class="label">Груповий урок</span><span class="value">490 грн<small>з людини</small></span></div>
     </div>
-
-    <button class="btn btn-accent" onclick="openLink('https://t.me/bp0602')">
-      🎯 Записатись на БЕЗОПЛАТНИЙ пробний урок
-    </button>
-
-    <button class="btn" onclick="openLink('https://t.me/bp0602')">
-      📊 Тарифи & ціни
-    </button>
-
-    <button class="btn btn-secondary" onclick="showPage('reviews-page')">
-      💬 Відгуки моїх студентів
-    </button>
-
-    <button class="btn btn-secondary" onclick="openLink('https://t.me/bp0602')">
-      📚 Які є рівні іспанської
-    </button>
-
-    <div class="contact-block">
-      <div class="contact-title">Написати особисто:</div>
-      <button class="btn btn-telegram" style="margin: 5px 0;" onclick="openLink('https://t.me/bp0602')">
-        ✈️ в Telegram
-      </button>
-      <button class="btn btn-viber" style="margin: 5px 0;" onclick="openLink('https://viber.click')">
-        💜 у Viber
-      </button>
+    <div class="price-block">
+      <div class="price-block-title">🏆 Рівні C1–C2</div>
+      <div class="price-row"><span class="label">Індивідуальний урок</span><span class="value">1190 грн</span></div>
+      <div class="price-row"><span class="label">Парний урок</span><span class="value">850 грн<small>з людини</small></span></div>
+      <div class="price-row"><span class="label">Груповий урок</span><span class="value">590 грн<small>з людини</small></span></div>
     </div>
   </div>
 
-  <!-- СТРАНИЦА 2: ОТЗЫВЫ -->
-  <div id="reviews-page" class="page">
-    <div class="reviews-header">
-      Відгуки моїх студентів
-    </div>
-
-    <div class="quote-box">
-      "Найкращий час почати вивчати мову був учора. Другий найкращий — сьогодні."
-    </div>
-
-    <div class="reviews-grid">
-      <img src="https://zhenyazavezen.github.io/link/review1.jpg" alt="Відгук 1">
-      <img src="https://zhenyazavezen.github.io/link/review2.jpg" alt="Відгук 2">
-      <img src="https://zhenyazavezen.github.io/link/review3.jpg" alt="Відгук 3">
-      <img src="https://zhenyazavezen.github.io/link/review4.jpg" alt="Відгук 4">
-    </div>
-
-    <div class="buttons-group">
-      <button class="btn-review" onclick="openLink('https://t.me/bp0602')">Лишити відгук!)</button>
-      <button class="btn-review btn-home" onclick="showPage('main-page')">На головну</button>
+  <!-- DELE -->
+  <div id="tariff-dele" class="tariff-block" style="display:none;">
+    <div class="price-block">
+      <div class="price-block-title">📕 Підготовка до екзамену DELE (індивідуально)</div>
+      <div class="price-row"><span class="label">Рівень A2</span><span class="value">990 грн</span></div>
+      <div class="price-row"><span class="label">Рівень B1</span><span class="value">1190 грн</span></div>
+      <div class="price-row"><span class="label">Рівень B2</span><span class="value">1390 грн</span></div>
     </div>
   </div>
 
-  <script>
-    if (window.Telegram && window.Telegram.WebApp) {
-      Telegram.WebApp.ready();
-      Telegram.WebApp.expand();
-    }
+  <!-- Бизнес -->
+  <div id="tariff-business" class="tariff-block" style="display:none;">
+    <div class="price-block">
+      <div class="price-block-title">💼 Бізнес-іспанська мова (індивідуально)</div>
+      <div class="price-row"><span class="label">Рівень A2</span><span class="value">1290 грн</span></div>
+      <div class="price-row"><span class="label">Рівні B1–B2</span><span class="value">1490 грн</span></div>
+      <div class="price-row"><span class="label">Рівень C1+</span><span class="value">1690 грн</span></div>
+    </div>
+  </div>
 
-    function showPage(pageId) {
-      document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-      document.getElementById(pageId).classList.add('active');
-      window.scrollTo(0, 0);
-    }
+  <button class="btn btn-outline" onclick="openLink('https://t.me/bp0602')">Хочу прайс!)</button>
+  <button class="btn btn-secondary" onclick="showPage('main-page')">На головну</button>
+</div>
 
-    function openLink(url) {
-      if (window.Telegram && window.Telegram.WebApp && Telegram.WebApp.openLink) {
-        Telegram.WebApp.openLink(url);
-      } else {
-        window.location.href = url;
-      }
+<script>
+  if (window.Telegram && window.Telegram.WebApp) {
+    Telegram.WebApp.ready();
+    Telegram.WebApp.expand();
+  }
+
+  function showPage(pageId){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  function showTariff(id, btn){
+    document.querySelectorAll('.tariff-block').forEach(b=>b.style.display='none');
+    document.getElementById('tariff-'+id).style.display='block';
+    document.querySelectorAll('.tariff-tab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function openLink(url){
+    if (window.Telegram && window.Telegram.WebApp && Telegram.WebApp.openLink){
+      Telegram.WebApp.openLink(url);
+    } else {
+      window.open(url, '_blank');
     }
-  </script>
+  }
+</script>
 </body>
 </html>
