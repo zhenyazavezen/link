@@ -16,13 +16,22 @@
     body {
       background-color: #ffd100;
       color: #333;
-      padding: 20px 15px 40px;
+      padding: 15px;
       text-align: center;
     }
 
-    /* Шапка с логотипом */
+    /* Экраны */
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* Шапка */
     .header {
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
     .logo-title {
@@ -30,7 +39,6 @@
       font-weight: 900;
       color: #800000;
       text-transform: uppercase;
-      letter-spacing: 1px;
       line-height: 1.1;
     }
 
@@ -41,23 +49,23 @@
       font-weight: 600;
     }
 
-    /* Главный блок с фото/презентацией */
+    /* Карточка */
     .hero-card {
       background: rgba(255, 255, 255, 0.4);
       border-radius: 20px;
       padding: 15px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       border: 1px solid rgba(128, 0, 0, 0.1);
     }
 
     .hero-title {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: bold;
       color: #800000;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
-    /* Главные кнопки меню */
+    /* Кнопки */
     .btn {
       display: block;
       width: 100%;
@@ -88,10 +96,68 @@
     .btn-accent {
       background: linear-gradient(135deg, #800000, #a00000);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
-    /* Блок соцсетей / мессенджеров */
+    /* Раздел отзывов */
+    .reviews-header {
+      background: #c91b29;
+      color: #ffffff;
+      padding: 15px;
+      font-size: 22px;
+      font-weight: 800;
+      border-radius: 14px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .quote-box {
+      font-style: italic;
+      font-size: 14px;
+      color: #800000;
+      margin-bottom: 20px;
+      font-weight: 600;
+      padding: 0 10px;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .reviews-grid img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      object-fit: cover;
+    }
+
+    .buttons-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .btn-review {
+      background-color: #c91b29;
+      color: #ffffff;
+      border: none;
+      padding: 14px 10px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      flex: 1;
+      box-shadow: 0 4px 10px rgba(201, 27, 41, 0.3);
+    }
+
+    .btn-home {
+      background-color: #800000;
+    }
+
+    /* Блок соцсетей */
     .contact-block {
       margin-top: 25px;
       background: #ffffff;
@@ -107,77 +173,84 @@
       font-weight: bold;
     }
 
-    .btn-telegram {
-      background-color: #0088cc;
-      color: white;
-    }
-
-    .btn-viber {
-      background-color: #6a1b9a;
-      color: white;
-    }
-
-    /* Подвал */
-    .footer {
-      margin-top: 30px;
-      font-size: 12px;
-      color: #777;
-    }
+    .btn-telegram { background-color: #0088cc; color: white; }
+    .btn-viber { background-color: #6a1b9a; color: white; }
   </style>
 </head>
 <body>
 
-  <!-- Шапка -->
-  <div class="header">
-    <div class="logo-title">Spanish<br>Dele Dana 🇪🇸</div>
-    <div class="logo-subtitle">Онлайн-школа іспанської мови Богдани Пономарьової</div>
-  </div>
+  <!-- СТРАНИЦА 1: ГЛАВНАЯ -->
+  <div id="main-page" class="page active">
+    <div class="header">
+      <div class="logo-title">Spanish<br>Dele Dana 🇪🇸</div>
+      <div class="logo-subtitle">Онлайн-школа іспанської мови Богдани Пономарьової</div>
+    </div>
 
-  <!-- Карточка приветствия -->
-  <div class="hero-card">
-    <div class="hero-title">Твій легкий старт у вивченні іспанської!</div>
-    <p style="font-size: 14px; color: #444; line-height: 1.4;">
-      Запишись на безкоштовний пробний урок або дізнайся свій рівень вже сьогодні.
-    </p>
-  </div>
+    <div class="hero-card">
+      <div class="hero-title">Твій легкий старт у вивченні іспанської!</div>
+      <p style="font-size: 14px; color: #444;">Запишись на безкоштовний пробний урок вже сьогодні.</p>
+    </div>
 
-  <!-- Главные кнопки -->
-  <button class="btn btn-accent" onclick="openLink('https://t.me/spanish_dele_dana_bot')">
-    🎯 Записатись на БЕЗОПЛАТНИЙ пробний урок
-  </button>
-
-  <button class="btn" onclick="openLink('https://t.me/spanish_dele_dana_bot')">
-    📊 Тарифи & ціни
-  </button>
-
-  <button class="btn btn-secondary" onclick="openLink('https://t.me/spanish_dele_dana_bot')">
-    💬 Відгуки моїх студентів
-  </button>
-
-  <button class="btn btn-secondary" onclick="openLink('https://t.me/spanish_dele_dana_bot')">
-    📚 Які є рівні іспанської
-  </button>
-
-  <!-- Мессенджеры -->
-  <div class="contact-block">
-    <div class="contact-title">Написати особисто:</div>
-    <button class="btn btn-telegram" style="margin: 5px 0;" onclick="openLink('https://t.me/spanish_dele_dana_bot')">
-      ✈️ в Telegram
+    <button class="btn btn-accent" onclick="openLink('https://t.me/bp0602')">
+      🎯 Записатись на БЕЗОПЛАТНИЙ пробний урок
     </button>
-    <button class="btn btn-viber" style="margin: 5px 0;" onclick="openLink('https://viber.click')">
-      💜 у Viber
+
+    <button class="btn" onclick="openLink('https://t.me/bp0602')">
+      📊 Тарифи & ціни
     </button>
+
+    <button class="btn btn-secondary" onclick="showPage('reviews-page')">
+      💬 Відгуки моїх студентів
+    </button>
+
+    <button class="btn btn-secondary" onclick="openLink('https://t.me/bp0602')">
+      📚 Які є рівні іспанської
+    </button>
+
+    <div class="contact-block">
+      <div class="contact-title">Написати особисто:</div>
+      <button class="btn btn-telegram" style="margin: 5px 0;" onclick="openLink('https://t.me/bp0602')">
+        ✈️ в Telegram
+      </button>
+      <button class="btn btn-viber" style="margin: 5px 0;" onclick="openLink('https://viber.click')">
+        💜 у Viber
+      </button>
+    </div>
   </div>
 
-  <div class="footer">
-    © Spanish Dele Dana | Всі права захищені
+  <!-- СТРАНИЦА 2: ОТЗЫВЫ -->
+  <div id="reviews-page" class="page">
+    <div class="reviews-header">
+      Відгуки моїх студентів
+    </div>
+
+    <div class="quote-box">
+      "Найкращий час почати вивчати мову був учора. Другий найкращий — сьогодні."
+    </div>
+
+    <div class="reviews-grid">
+      <img src="https://zhenyazavezen.github.io/link/review1.jpg" alt="Відгук 1">
+      <img src="https://zhenyazavezen.github.io/link/review2.jpg" alt="Відгук 2">
+      <img src="https://zhenyazavezen.github.io/link/review3.jpg" alt="Відгук 3">
+      <img src="https://zhenyazavezen.github.io/link/review4.jpg" alt="Відгук 4">
+    </div>
+
+    <div class="buttons-group">
+      <button class="btn-review" onclick="openLink('https://t.me/bp0602')">Лишити відгук!)</button>
+      <button class="btn-review btn-home" onclick="showPage('main-page')">На головну</button>
+    </div>
   </div>
 
   <script>
-    // Инициализация Telegram Web App
     if (window.Telegram && window.Telegram.WebApp) {
       Telegram.WebApp.ready();
       Telegram.WebApp.expand();
+    }
+
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      window.scrollTo(0, 0);
     }
 
     function openLink(url) {
