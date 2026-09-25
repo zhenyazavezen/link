@@ -1,59 +1,192 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spanish Dele Dana</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #ffffff;
-            color: #222222;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
-        .header {
-            margin-top: 20px;
-        }
-        h1 {
-            color: #d32f2f;
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-        p {
-            font-size: 15px;
-            color: #555555;
-            line-height: 1.4;
-        }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            margin: 15px 0;
-            background-color: #d32f2f;
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spanish Dele Dana</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #ffd100;
+      color: #333;
+      padding: 20px 15px 40px;
+      text-align: center;
+    }
+
+    /* Шапка с логотипом */
+    .header {
+      margin-bottom: 25px;
+    }
+
+    .logo-title {
+      font-size: 28px;
+      font-weight: 900;
+      color: #800000;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      line-height: 1.1;
+    }
+
+    .logo-subtitle {
+      font-size: 14px;
+      color: #555;
+      margin-top: 5px;
+      font-weight: 600;
+    }
+
+    /* Главный блок с фото/презентацией */
+    .hero-card {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 20px;
+      padding: 15px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(128, 0, 0, 0.1);
+    }
+
+    .hero-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #800000;
+      margin-bottom: 10px;
+    }
+
+    /* Главные кнопки меню */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      margin: 12px 0;
+      background-color: #800000;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(128, 0, 0, 0.25);
+      transition: transform 0.1s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background-color: #ffffff;
+      color: #800000;
+      border: 2px solid #800000;
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, #800000, #a00000);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Блок соцсетей / мессенджеров */
+    .contact-block {
+      margin-top: 25px;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .contact-title {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .btn-telegram {
+      background-color: #0088cc;
+      color: white;
+    }
+
+    .btn-viber {
+      background-color: #6a1b9a;
+      color: white;
+    }
+
+    /* Подвал */
+    .footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #777;
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Spanish Dele Dana 🇪🇸</h1>
-        <p>Онлайн-школа іспанської мови Богдани Пономарьової</p>
-    </div>
-    
-    <button class="btn" onclick="Telegram.WebApp.close()">Записатися на пробний урок</button>
 
-    <script>
-        Telegram.WebApp.ready();
-        Telegram.WebApp.expand();
-    </script>
+  <!-- Шапка -->
+  <div class="header">
+    <div class="logo-title">Spanish<br>Dele Dana 🇪🇸</div>
+    <div class="logo-subtitle">Онлайн-школа іспанської мови Богдани Пономарьової</div>
+  </div>
+
+  <!-- Карточка приветствия -->
+  <div class="hero-card">
+    <div class="hero-title">Твій легкий старт у вивченні іспанської!</div>
+    <p style="font-size: 14px; color: #444; line-height: 1.4;">
+      Запишись на безкоштовний пробний урок або дізнайся свій рівень вже сьогодні.
+    </p>
+  </div>
+
+  <!-- Главные кнопки -->
+  <button class="btn btn-accent" onclick="openLink('https://t.me/spanish_dele_dana_bot')">
+    🎯 Записатись на БЕЗОПЛАТНИЙ пробний урок
+  </button>
+
+  <button class="btn" onclick="openLink('https://t.me/spanish_dele_dana_bot')">
+    📊 Тарифи & ціни
+  </button>
+
+  <button class="btn btn-secondary" onclick="openLink('https://t.me/spanish_dele_dana_bot')">
+    💬 Відгуки моїх студентів
+  </button>
+
+  <button class="btn btn-secondary" onclick="openLink('https://t.me/spanish_dele_dana_bot')">
+    📚 Які є рівні іспанської
+  </button>
+
+  <!-- Мессенджеры -->
+  <div class="contact-block">
+    <div class="contact-title">Написати особисто:</div>
+    <button class="btn btn-telegram" style="margin: 5px 0;" onclick="openLink('https://t.me/spanish_dele_dana_bot')">
+      ✈️ в Telegram
+    </button>
+    <button class="btn btn-viber" style="margin: 5px 0;" onclick="openLink('https://viber.click')">
+      💜 у Viber
+    </button>
+  </div>
+
+  <div class="footer">
+    © Spanish Dele Dana | Всі права захищені
+  </div>
+
+  <script>
+    // Инициализация Telegram Web App
+    if (window.Telegram && window.Telegram.WebApp) {
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand();
+    }
+
+    function openLink(url) {
+      if (window.Telegram && window.Telegram.WebApp && Telegram.WebApp.openLink) {
+        Telegram.WebApp.openLink(url);
+      } else {
+        window.location.href = url;
+      }
+    }
+  </script>
 </body>
 </html>
