@@ -2,7 +2,8 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇪🇸</text></svg>">
 <title>Spanish Dele Dana</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
@@ -19,7 +20,7 @@
   body{
     background:linear-gradient(180deg,#ffd100 0%,#ffda33 100%);
     color:#333;
-    padding:16px 14px 40px;
+    padding:calc(16px + env(safe-area-inset-top,0px)) 14px calc(84px + env(safe-area-inset-bottom,0px));
     text-align:center;
     min-height:100vh;
   }
@@ -137,6 +138,54 @@
   .tariff-tab.active{background:var(--maroon);color:#fff;}
 
   .footer-space{height:6px;}
+
+  /* Bottom nav */
+  .bottom-nav{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    display:flex;background:#fff;
+    padding:8px 4px calc(8px + env(safe-area-inset-bottom,0px));
+    box-shadow:0 -3px 12px rgba(0,0,0,.1);
+  }
+  .nav-item{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+    background:none;border:none;cursor:pointer;padding:4px 2px;
+    color:#9c8a55;font-size:10.5px;font-weight:700;
+  }
+  .nav-item .nav-icon{font-size:19px;line-height:1;}
+  .nav-item.active{color:var(--maroon);}
+
+  /* About page */
+  .about-photo-badge{
+    width:74px;height:74px;border-radius:50%;margin:0 auto 12px;
+    background:linear-gradient(135deg,var(--maroon),var(--red));
+    display:flex;align-items:center;justify-content:center;
+    font-size:30px;color:#fff;box-shadow:0 4px 12px rgba(128,0,0,.3);
+  }
+  .about-name{font-size:19px;font-weight:900;color:var(--maroon);margin-bottom:4px;}
+  .about-role{font-size:13px;color:#7a5c00;font-weight:700;margin-bottom:16px;}
+  .about-list{text-align:left;margin-bottom:16px;}
+  .about-list li{
+    list-style:none;display:flex;gap:8px;font-size:13px;color:#4a3c14;
+    line-height:1.4;margin-bottom:10px;background:rgba(255,255,255,.5);
+    padding:10px 12px;border-radius:12px;border:1px solid rgba(128,0,0,.08);
+  }
+  .about-list li .tick{color:var(--red);font-weight:900;flex-shrink:0;}
+
+  /* Contact page */
+  .qr-card{
+    background:#fff;border-radius:20px;padding:20px;margin:6px auto 18px;
+    max-width:260px;box-shadow:0 4px 14px rgba(0,0,0,.1);
+  }
+  .qr-visual{
+    width:150px;height:150px;margin:12px auto;border-radius:16px;
+    background:repeating-conic-gradient(#800000 0% 25%,#fff 0% 50%) 0 0/16px 16px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .qr-visual span{background:#fff;padding:6px 8px;border-radius:8px;font-size:22px;}
+  .phone-line{
+    font-size:19px;font-weight:900;color:var(--maroon);margin-top:8px;letter-spacing:.5px;
+  }
+  .handle-line{font-size:14px;color:#7a5c00;font-weight:700;margin-bottom:4px;}
 </style>
 </head>
 <body>
@@ -157,11 +206,13 @@
   <button class="btn" onclick="showPage('pricing-page')">📊 Тарифи &amp; ціни</button>
   <button class="btn btn-secondary" onclick="showPage('reviews-page')">💬 Відгуки моїх студентів</button>
   <button class="btn btn-secondary" onclick="showPage('levels-page')">📚 Які є рівні іспанської</button>
+  <button class="btn btn-secondary" onclick="showPage('about-page')">👩‍🏫 Про викладача</button>
 
   <div class="contact-block">
     <div class="contact-title">Написати особисто:</div>
     <button class="btn btn-telegram" style="margin:6px 0;" onclick="openLink('https://t.me/bp0602')">✈️ в Telegram</button>
     <button class="btn btn-viber" style="margin:6px 0;" onclick="openLink('https://viber.click')">💜 у Viber</button>
+    <button class="btn btn-secondary" style="margin:6px 0;" onclick="showPage('contact-page')">📇 Контакти та QR-код</button>
   </div>
 </div>
 
@@ -286,19 +337,104 @@
   <button class="btn btn-secondary" onclick="showPage('main-page')">На головну</button>
 </div>
 
+<!-- ================= ПРО ВИКЛАДАЧА ================= -->
+<div id="about-page" class="page">
+  <div class="section-header">Про викладача</div>
+
+  <div class="about-photo-badge">👩‍🏫</div>
+  <div class="about-name">Богдана Пономарьова</div>
+  <div class="about-role">Ваш найкращий викладач іспанської мови</div>
+
+  <ul class="about-list">
+    <li><span class="tick">✔️</span><span>Носій іспанської мови та методолог — пояснюю навіть найскладніші теми просто і зрозуміло.</span></li>
+    <li><span class="tick">✔️</span><span>Майже 4 роки досвіду викладання в онлайн та офлайн форматах.</span></li>
+    <li><span class="tick">✔️</span><span>Навчалася в Іспанії та здобула практичний досвід використання мови в іспаномовному середовищі.</span></li>
+    <li><span class="tick">✔️</span><span>Вивчала маркетинг в Іспанії та працювала в іспанських компаніях — навчаю сучасної живої мови.</span></li>
+    <li><span class="tick">✔️</span><span>Досвід роботи перекладачем прямого ефіру та ведучою міжнародних заходів.</span></li>
+    <li><span class="tick">✔️</span><span>Комунікативна методика — максимум розмовної практики вже з перших занять.</span></li>
+    <li><span class="tick">✔️</span><span>Індивідуальна програма навчання відповідно до ваших цілей, рівня та темпу.</span></li>
+    <li><span class="tick">✔️</span><span>Постійний зворотний зв'язок, підтримка та контроль прогресу.</span></li>
+  </ul>
+
+  <button class="btn btn-accent" onclick="openLink('https://t.me/bp0602')">🎯 Записатись на пробний урок</button>
+  <button class="btn btn-secondary" onclick="showPage('main-page')">На головну</button>
+</div>
+
+<!-- ================= КОНТАКТИ ================= -->
+<div id="contact-page" class="page">
+  <div class="section-header">Контакти</div>
+
+  <div class="qr-card">
+    <div class="handle-line">Telegram</div>
+    <div class="about-name" style="font-size:20px;">@BP0602</div>
+    <div class="qr-visual"><span>📷</span></div>
+    <div class="phone-line">+380 98 943 49 15</div>
+  </div>
+
+  <button class="btn btn-telegram" onclick="openLink('https://t.me/bp0602')">✈️ Написати в Telegram</button>
+  <button class="btn btn-viber" onclick="openLink('https://viber.click')">💜 Написати у Viber</button>
+  <button class="btn btn-secondary" onclick="showPage('main-page')">На головну</button>
+</div>
+
+<!-- ================= НИЖНЯ НАВІГАЦІЯ ================= -->
+<div class="bottom-nav" id="bottom-nav">
+  <button class="nav-item active" data-page="main-page" onclick="showPage('main-page')"><span class="nav-icon">🏠</span>Головна</button>
+  <button class="nav-item" data-page="pricing-page" onclick="showPage('pricing-page')"><span class="nav-icon">📊</span>Тарифи</button>
+  <button class="nav-item" data-page="reviews-page" onclick="showPage('reviews-page')"><span class="nav-icon">💬</span>Відгуки</button>
+  <button class="nav-item" data-page="about-page" onclick="showPage('about-page')"><span class="nav-icon">👩‍🏫</span>Про мене</button>
+</div>
+
 <script>
-  if (window.Telegram && window.Telegram.WebApp) {
-    Telegram.WebApp.ready();
-    Telegram.WebApp.expand();
+  const tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+  const history = ['main-page'];
+
+  if (tg){
+    tg.ready();
+    tg.expand();
+    if (tg.setHeaderColor) tg.setHeaderColor('#ffd100');
+    if (tg.setBackgroundColor) tg.setBackgroundColor('#ffd100');
+    if (tg.BackButton){
+      tg.BackButton.onClick(goBack);
+    }
   }
 
-  function showPage(pageId){
+  function haptic(style){
+    if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred(style || 'light');
+  }
+
+  function updateBackButton(){
+    if (!tg || !tg.BackButton) return;
+    if (history.length > 1) tg.BackButton.show(); else tg.BackButton.hide();
+  }
+
+  function updateBottomNav(pageId){
+    document.querySelectorAll('.nav-item').forEach(item=>{
+      item.classList.toggle('active', item.dataset.page === pageId);
+    });
+  }
+
+  function showPage(pageId, isBack){
+    haptic('light');
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
     window.scrollTo(0,0);
+    updateBottomNav(pageId);
+
+    if (!isBack){
+      if (history[history.length-1] !== pageId) history.push(pageId);
+    }
+    updateBackButton();
+  }
+
+  function goBack(){
+    if (history.length > 1){
+      history.pop();
+      showPage(history[history.length-1], true);
+    }
   }
 
   function showTariff(id, btn){
+    haptic('light');
     document.querySelectorAll('.tariff-block').forEach(b=>b.style.display='none');
     document.getElementById('tariff-'+id).style.display='block';
     document.querySelectorAll('.tariff-tab').forEach(t=>t.classList.remove('active'));
@@ -306,12 +442,15 @@
   }
 
   function openLink(url){
-    if (window.Telegram && window.Telegram.WebApp && Telegram.WebApp.openLink){
-      Telegram.WebApp.openLink(url);
+    haptic('medium');
+    if (tg && tg.openLink){
+      tg.openLink(url);
     } else {
       window.open(url, '_blank');
     }
   }
+
+  updateBackButton();
 </script>
 </body>
 </html>
