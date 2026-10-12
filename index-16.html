@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+<title>Art Studio — Наталія Гвоздікова</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root{
+    --bg:#fbf6ee;
+    --card:#ffffff;
+    --ink:#2f2a3b;
+    --muted:#7b7486;
+    --coral:#e0674a;
+    --coral-dark:#c4502f;
+    --sage:#7fa38a;
+    --sage-soft:#e3eee6;
+    --sun:#f0b54a;
+    --sun-soft:#fcefd2;
+    --rose-soft:#fbe3dc;
+    --sky-soft:#e1edf5;
+    --line:rgba(47,42,59,.09);
+    --shadow:0 6px 18px rgba(47,42,59,.08);
+    --serif:Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    background:var(--bg);
+    background-image:
+      radial-gradient(circle at 12% 0%,rgba(240,181,74,.22),transparent 38%),
+      radial-gradient(circle at 100% 18%,rgba(127,163,138,.20),transparent 34%),
+      radial-gradient(circle at 0% 60%,rgba(224,103,74,.10),transparent 32%);
+    background-attachment:fixed;
+    color:var(--ink);
+    padding:calc(18px + env(safe-area-inset-top,0px)) 16px calc(84px + env(safe-area-inset-bottom,0px));
+    min-height:100vh;
+  }
+  .page{display:none;animation:fadeIn .25s ease;}
+  .page.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  h1,h2,h3,.serif{font-family:var(--serif);}
+
+  /* ---------- Hero ---------- */
+  .hero{text-align:center;padding:6px 0 4px;}
+  .avatar{
+    width:116px;height:116px;border-radius:50%;margin:0 auto 14px;position:relative;
+    background:linear-gradient(135deg,var(--sun),var(--coral));
+    padding:4px;box-shadow:0 8px 22px rgba(224,103,74,.30);
+  }
+  .avatar-inner{
+    width:100%;height:100%;border-radius:50%;overflow:hidden;background:var(--sun-soft);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-size:34px;font-weight:700;color:var(--coral-dark);
+    border:3px solid #fff;position:relative;
+  }
+  .avatar-inner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;transform:scale(1.55);transform-origin:50% 32%;display:block;}
+  .brand{font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--coral-dark);font-weight:700;}
+  .hero h1{font-size:28px;line-height:1.15;margin:6px 0 8px;color:var(--ink);}
+  .hero p{font-size:14.5px;color:var(--muted);line-height:1.45;max-width:320px;margin:0 auto;}
+
+  .chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:16px 0 4px;}
+  .chip{
+    font-size:12px;font-weight:700;padding:6px 11px;border-radius:999px;
+    background:var(--card);border:1px solid var(--line);color:var(--ink);box-shadow:0 2px 6px rgba(47,42,59,.05);
+  }
+  .chip.accent{background:var(--sun-soft);border-color:rgba(240,181,74,.5);color:#8a5b00;}
+  .chip.green{background:var(--sage-soft);border-color:rgba(127,163,138,.5);color:#3f6a4c;}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;padding:15px;margin:10px 0;border:none;cursor:pointer;
+    border-radius:16px;font-weight:800;font-size:15.5px;text-decoration:none;
+    background:var(--coral);color:#fff;box-shadow:0 6px 16px rgba(224,103,74,.32);
+    transition:transform .1s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--line);box-shadow:var(--shadow);}
+  .btn-tg{background:#2a9bd6;box-shadow:0 6px 16px rgba(42,155,214,.3);}
+  .btn-small{padding:12px;font-size:14px;margin:6px 0;}
+
+  /* ---------- Menu tiles ---------- */
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0;}
+  .tile{
+    background:var(--card);border-radius:20px;padding:16px 12px;text-align:left;cursor:pointer;
+    border:1px solid var(--line);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;
+    transition:transform .1s ease;
+  }
+  .tile:active{transform:scale(.97);}
+  .tile .ico{
+    width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;
+  }
+  .tile:nth-child(1) .ico{background:var(--rose-soft);}
+  .tile:nth-child(2) .ico{background:var(--sage-soft);}
+  .tile:nth-child(3) .ico{background:var(--sun-soft);}
+  .tile:nth-child(4) .ico{background:var(--sky-soft);}
+  .tile b{font-family:var(--serif);font-size:16px;}
+  .tile span{font-size:12px;color:var(--muted);line-height:1.3;}
+
+  .banner{
+    display:flex;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer;
+    padding:14px;margin:0 0 12px;border-radius:20px;border:1px solid rgba(127,163,138,.45);
+    background:linear-gradient(135deg,var(--sage-soft),var(--sun-soft));box-shadow:var(--shadow);
+    transition:transform .1s ease;
+  }
+  .banner:active{transform:scale(.98);}
+  .banner .ico{font-size:30px;line-height:1;}
+  .banner b{display:block;font-family:var(--serif);font-size:16px;color:var(--ink);}
+  .banner span{font-size:12.5px;color:#4d4759;line-height:1.35;}
+  .quote{
+    text-align:center;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--coral-dark);
+    line-height:1.5;padding:12px 10px 4px;
+  }
+
+  /* ---------- Section headers ---------- */
+  .section-head{margin:4px 0 16px;text-align:center;}
+  .section-head h2{font-size:25px;color:var(--ink);}
+  .section-head p{font-size:13.5px;color:var(--muted);margin-top:5px;line-height:1.4;}
+  .section-head .bar{width:46px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--sun),var(--coral));margin:10px auto 0;}
+
+  .card{
+    background:var(--card);border-radius:20px;padding:16px;margin-bottom:12px;
+    border:1px solid var(--line);box-shadow:var(--shadow);text-align:left;
+  }
+  .card h3{font-size:17px;margin-bottom:6px;}
+  .card p{font-size:13.5px;color:#4d4759;line-height:1.5;}
+  .card .tag{
+    display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.3px;
+    padding:4px 10px;border-radius:999px;margin-bottom:8px;
+  }
+  .tag.rose{background:var(--rose-soft);color:var(--coral-dark);}
+  .tag.green{background:var(--sage-soft);color:#3f6a4c;}
+  .tag.sun{background:var(--sun-soft);color:#8a5b00;}
+  .tag.sky{background:var(--sky-soft);color:#2f6a92;}
+
+  .materials{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;}
+  .material{
+    display:flex;align-items:center;gap:8px;padding:10px;border-radius:14px;
+    background:var(--bg);border:1px solid var(--line);font-size:13px;font-weight:700;
+  }
+  .material i{font-style:normal;font-size:18px;}
+  .material:last-child:nth-child(odd){grid-column:1 / -1;}
+
+  .steps{list-style:none;counter-reset:s;}
+  .steps li{
+    counter-increment:s;display:flex;gap:11px;font-size:13.5px;color:#4d4759;line-height:1.45;margin-bottom:11px;
+  }
+  .steps li:last-child{margin-bottom:0;}
+  .steps li::before{
+    content:counter(s);flex-shrink:0;width:26px;height:26px;border-radius:50%;
+    background:var(--coral);color:#fff;font-weight:800;font-size:13px;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  .price-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px;}
+  .price-row:last-child{border-bottom:none;}
+  .price-row .v{font-weight:800;color:var(--coral-dark);white-space:nowrap;}
+
+  /* ---------- Gallery ---------- */
+  .filters{display:flex;gap:7px;overflow-x:auto;padding:2px 2px 12px;margin:0 -16px;padding-left:16px;padding-right:16px;scrollbar-width:none;}
+  .filters::-webkit-scrollbar{display:none;}
+  .filter{
+    flex-shrink:0;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;
+    background:var(--card);border:1.5px solid var(--line);color:var(--ink);
+  }
+  .filter.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .work{
+    border-radius:18px;overflow:hidden;position:relative;aspect-ratio:4/5;cursor:pointer;
+    box-shadow:var(--shadow);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .work .ph{font-size:38px;opacity:.9;}
+  .work img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .work .cap{
+    position:absolute;left:0;right:0;bottom:0;padding:22px 10px 9px;text-align:left;
+    background:linear-gradient(transparent,rgba(30,25,40,.62));color:#fff;font-size:12px;font-weight:700;
+  }
+  .work.noimg .cap{background:none;color:var(--ink);opacity:.75;}
+  .g-arch{background:linear-gradient(135deg,#f9d9bf,#f0b5a0);}
+  .g-still{background:linear-gradient(135deg,#d9ecd2,#f3d0dc);}
+  .g-people{background:linear-gradient(135deg,#d7e4f7,#e6d5f1);}
+  .g-animals{background:linear-gradient(135deg,#fde0b8,#f6b890);}
+  .g-land{background:linear-gradient(135deg,#d5ecc6,#c3e0ee);}
+  .g-pencil{background:linear-gradient(135deg,#e6e6ea,#cfcfd8);}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.4;}
+
+  .lightbox{
+    position:fixed;inset:0;z-index:100;background:rgba(20,16,28,.88);display:none;
+    align-items:center;justify-content:center;padding:20px;flex-direction:column;gap:12px;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:100%;max-height:78vh;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+  .lightbox p{color:#fff;font-size:14px;font-weight:700;}
+  .lightbox button{background:#fff;border:none;border-radius:999px;padding:10px 22px;font-weight:800;font-size:14px;cursor:pointer;}
+
+  /* ---------- Reviews ---------- */
+  .review{position:relative;padding-top:34px;}
+  .review::before{
+    content:"“";position:absolute;top:2px;left:16px;font-family:var(--serif);font-size:54px;line-height:1;color:var(--sun);
+  }
+  .review p{font-size:14px;color:var(--ink);font-style:italic;font-family:var(--serif);line-height:1.5;}
+  .review .who{margin-top:8px;font-size:12px;color:var(--muted);font-weight:700;font-style:normal;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+
+  /* ---------- About ---------- */
+  .about-top{text-align:center;margin-bottom:14px;}
+  .about-name{font-family:var(--serif);font-size:23px;font-weight:700;margin-top:2px;}
+  .about-role{font-size:13px;color:var(--coral-dark);font-weight:700;margin-top:4px;}
+  .about-text{font-size:14px;color:#4d4759;line-height:1.55;}
+  .values{display:grid;gap:10px;margin:14px 0;}
+  .value{
+    display:flex;gap:12px;align-items:flex-start;padding:13px;border-radius:18px;background:var(--card);
+    border:1px solid var(--line);box-shadow:var(--shadow);font-size:13.5px;line-height:1.45;color:#4d4759;
+  }
+  .value i{font-style:normal;font-size:22px;line-height:1;}
+  .value b{display:block;color:var(--ink);font-family:var(--serif);font-size:15px;margin-bottom:2px;}
+
+  .contact-block{
+    margin-top:16px;padding:16px;border-radius:22px;text-align:center;
+    background:linear-gradient(135deg,var(--sun-soft),var(--rose-soft));
+    border:1px solid rgba(224,103,74,.18);
+  }
+  .contact-block .t{font-family:var(--serif);font-size:16px;font-weight:700;margin-bottom:4px;}
+  .contact-block .s{font-size:12.5px;color:var(--muted);margin-bottom:8px;line-height:1.4;}
+
+  /* ---------- Bottom nav ---------- */
+  .bottom-nav{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;background:rgba(255,255,255,.96);
+    border-top:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    padding:7px 4px calc(7px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 18px rgba(47,42,59,.07);
+  }
+  .nav-item{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;
+    padding:6px 2px;border-radius:12px;color:#a59fae;font-size:10.5px;font-weight:700;transition:color .15s,background .15s;
+  }
+  .nav-item .nav-icon{font-size:19px;line-height:1;filter:grayscale(1);opacity:.7;transition:filter .15s,opacity .15s;}
+  .nav-item.active{color:var(--coral-dark);background:var(--rose-soft);}
+  .nav-item.active .nav-icon{filter:none;opacity:1;}
+</style>
+</head>
+<body>
+
+<!-- ================= ГОЛОВНА ================= -->
+<div id="main-page" class="page active">
+  <div class="hero">
+    <div class="avatar"><div class="avatar-inner" data-avatar><img src="images/natalia.jpg" alt="Наталія Гвоздікова" onerror="this.remove()"><span class="initials">НГ</span></div></div>
+    <div class="brand" data-brand>Art Studio · Миколаїв</div>
+    <h1>Малюємо разом з Наталією</h1>
+    <p>Студія в самому центрі Миколаєва та онлайн-заняття з малювання для дітей і дорослих. Тепла атмосфера, творчість без страху помилитись.</p>
+    <div class="chips">
+      <span class="chip accent">🎁 Перше заняття безкоштовно</span>
+      <span class="chip green">👧 Діти 5–13 років</span>
+      <span class="chip green">🎨 Дорослі 14+</span>
+      <span class="chip">💻 Онлайн і в студії</span>
+    </div>
+  </div>
+
+  <button class="btn" onclick="signUp()">🎨 Записатись на безкоштовне заняття</button>
+
+  <div class="tiles">
+    <div class="tile" onclick="showPage('lessons-page')"><div class="ico">🖌️</div><b>Заняття</b><span>Діти й дорослі, розклад, матеріали</span></div>
+    <div class="tile" onclick="showPage('works-page')"><div class="ico">🖼️</div><b>Роботи учнів</b><span>Акварель, гуаш, олівці, пастель</span></div>
+    <div class="tile" onclick="showPage('reviews-page')"><div class="ico">💌</div><b>Відгуки</b><span>Що кажуть батьки</span></div>
+    <div class="tile" onclick="showPage('about-page')"><div class="ico">👩‍🎨</div><b>Про Наталію</b><span>Підхід і атмосфера студії</span></div>
+  </div>
+
+  <button class="banner" onclick="showPage('course-page')">
+    <div class="ico">✏️</div>
+    <div><b>Онлайн-курс «Олівець»</b><span>4 відеоуроки з нуля, від 399 грн</span></div>
+  </button>
+
+  <div class="quote">Це не просто «намалювати картинку» — це місце, де дитина вчиться фантазувати й сміливо проявляти себе.</div>
+</div>
+
+<!-- ================= ЗАНЯТТЯ ================= -->
+<div id="lessons-page" class="page">
+  <div class="section-head">
+    <h2>Заняття</h2>
+    <p>Кожне заняття — нова тема, нові техніки та багато творчої атмосфери</p>
+    <div class="bar"></div>
+  </div>
+
+  <div class="card">
+    <span class="tag rose">Формати</span>
+    <h3>Студія в Миколаєві та онлайн</h3>
+    <p>Можна займатися наживо в студії або дистанційно в Zoom — дитина малює вдома, а Наталія пояснює й дає зворотний зв'язок.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag green">Групи</span>
+    <h3>Дитячі групи</h3>
+    <div class="price-row"><span>Молодша група</span><span class="v" data-young>5–8 років</span></div>
+    <div class="price-row"><span>Старша група</span><span class="v" data-old>9–13 років</span></div>
+  </div>
+
+  <div class="card">
+    <span class="tag sky">Для дорослих · 14+</span>
+    <h3>Живопис і малюнок</h3>
+    <p>Заняття для дорослих у студії: пробуємо різні техніки живопису, зокрема олійні та акрилові фарби. Можна розслабитись після роботи, втілити творчі ідеї на полотні й створити власний шедевр — навіть якщо ви ніколи раніше не малювали.</p>
+    <div class="price-row" style="margin-top:8px;"><span>П'ятниця</span><span class="v" data-fri>16:00–18:00</span></div>
+    <div class="price-row"><span>Субота</span><span class="v" data-sat>15:00–17:00</span></div>
+  </div>
+
+  <div class="card">
+    <span class="tag rose">Кому підійде</span>
+    <h3>Обирайте свій варіант</h3>
+    <div class="values" style="margin:10px 0 0;">
+      <div class="value"><i>🌱</i><div><b>З самого нуля</b>Навіть якщо востаннє тримали олівець у школі — це ок. Усе розберемо крок за кроком.</div></div>
+      <div class="value"><i>🎨</i><div><b>Уже малюєте</b>Освоюйте нові техніки: живопис, графіка, експерименти — буде цікаво.</div></div>
+      <div class="value"><i>🎓</i><div><b>Серйозніша ціль</b>Підготовка до вступу у ВНЗ: працюємо над базою, портфоліо і впевненістю.</div></div>
+      <div class="value"><i>🤍</i><div><b>Для себе</b>Малювати просто для душі: без тиску, без «треба», в кайф.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag green">Онлайн-курс</span>
+    <h3>«Олівець»: 4 відеоуроки</h3>
+    <p>Базові навички малювання з нуля й три повноцінні роботи. Уроки по 30–45 хвилин, вартість від 399 грн.</p>
+    <button class="btn btn-ghost btn-small" onclick="showPage('course-page')">Детальніше про курс</button>
+  </div>
+
+  <div class="card">
+    <span class="tag sun">Події</span>
+    <h3>Майстер-класи та заходи</h3>
+    <p>У студії регулярно проходять цікаві майстер-класи, а також плануються тематичні заходи для дітей і дорослих. Слідкуйте за анонсами в Instagram або запитайте в Директ.</p>
+    <button class="btn btn-ghost btn-small" onclick="openLink(CONFIG.instagram)">Анонси в Instagram</button>
+  </div>
+
+  <div class="card">
+    <span class="tag sun">Матеріали</span>
+    <h3>Чим малюють діти</h3>
+    <div class="materials">
+      <div class="material"><i>💧</i>Акварель</div>
+      <div class="material"><i>🎨</i>Гуаш</div>
+      <div class="material"><i>🖍️</i>Кольорові олівці</div>
+      <div class="material"><i>🌈</i>Масляна пастель</div>
+      <div class="material"><i>✏️</i>Простий олівець</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag sky">Теми</span>
+    <h3>Що ми малюємо</h3>
+    <p>Архітектуру, натюрморти, людей, тварин, пейзажі та багато іншого. Діти знайомляться з різними матеріалами, вчаться творчо мислити, бачити красу й не боятися експериментувати.</p>
+    <button class="btn btn-ghost btn-small" onclick="showPage('works-page')">Подивитись роботи учнів</button>
+  </div>
+
+  <div class="card">
+    <span class="tag rose">Як проходить заняття</span>
+    <ol class="steps">
+      <li>Обираємо тему й техніку заняття.</li>
+      <li>Наталія пояснює крок за кроком так, щоб було зрозуміло дитині.</li>
+      <li>Малюємо разом, з підтримкою та зворотним зв'язком.</li>
+      <li>Дитина отримує готову роботу, якою пишається.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <span class="tag green">Вартість</span>
+    <h3>Ціни та розклад</h3>
+    <div class="price-row"><span>Пробне заняття</span><span class="v">Безкоштовно</span></div>
+    <div class="price-row"><span>Абонемент / окреме заняття</span><span class="v" data-price>Уточнюйте в Директ</span></div>
+  </div>
+
+  <button class="btn" onclick="signUp()">🎁 Записатись на пробне заняття</button>
+  <button class="btn btn-ghost" onclick="showPage('main-page')">На головну</button>
+</div>
+
+<!-- ================= КУРС ================= -->
+<div id="course-page" class="page">
+  <div class="section-head">
+    <h2>Курс «Олівець»</h2>
+    <p>Онлайн-курс для тих, хто мріє навчитися малювати. Почніть з простого!</p>
+    <div class="bar"></div>
+  </div>
+
+  <div class="card">
+    <span class="tag green">Про курс</span>
+    <h3>База, яка дає свободу</h3>
+    <p>Спочатку освоюємо базові навички малювання, а потім одразу застосовуємо їх на практиці. У результаті ви не лише розберетесь з основами, а й намалюєте повноцінні 3 роботи.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag sun">Програма</span>
+    <h3>4 відеоуроки</h3>
+    <ol class="steps">
+      <li><div><b>Урок 1.</b> Вчимось штрихувати та розбираємо закон світлотіні.</div></li>
+      <li><div><b>Урок 2.</b> Малюємо тюльпан.</div></li>
+      <li><div><b>Урок 3.</b> Малюємо пташку.</div></li>
+      <li><div><b>Урок 4.</b> Малюємо зайчика.</div></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <span class="tag rose">Для кого</span>
+    <h3>Курс підійде</h3>
+    <div class="values" style="margin:10px 0 0;">
+      <div class="value"><i>🌱</i><div>Новачкам, які ніколи не малювали</div></div>
+      <div class="value"><i>✏️</i><div>Самоучкам, які малюють, але хочуть освоїти базові навички</div></div>
+      <div class="value"><i>🙂</i><div>Підліткам та дорослим, які хочуть розвинути хобі</div></div>
+      <div class="value"><i>🎨</i><div>Усім, хто любить малювати й хоче провести час з користю</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag sky">Вартість</span>
+    <h3>Формат і ціна</h3>
+    <div class="price-row"><span>Курс</span><span class="v" data-course-price>від 399 грн</span></div>
+    <div class="price-row"><span>Тривалість уроку</span><span class="v">30–45 хв</span></div>
+    <div class="price-row"><span>Тариф із супроводом</span><span class="v">Є</span></div>
+    <p style="margin-top:8px;">Є тариф із особистим супроводом викладачки. Деталі та поточні умови уточнюйте в Директ.</p>
+  </div>
+
+  <button class="btn" onclick="signUp()">✏️ Дізнатись більше: напишіть «Олівець» у Директ</button>
+  <button class="btn btn-ghost" onclick="showPage('lessons-page')">Назад до занять</button>
+</div>
+
+<!-- ================= РОБОТИ ================= -->
+<div id="works-page" class="page">
+  <div class="section-head">
+    <h2>Роботи учнів</h2>
+    <p>Те, що діти створюють на заняттях</p>
+    <div class="bar"></div>
+  </div>
+
+  <div class="filters" id="filters"></div>
+  <div class="gallery" id="gallery"></div>
+  <p class="hint">Торкніться роботи, щоб розглянути її докладніше.</p>
+
+  <button class="btn" onclick="signUp()">🎨 Хочу так само!</button>
+  <button class="btn btn-ghost" onclick="showPage('main-page')">На головну</button>
+</div>
+
+<!-- ================= ВІДГУКИ ================= -->
+<div id="reviews-page" class="page">
+  <div class="section-head">
+    <h2>Відгуки батьків</h2>
+    <p>Слова, заради яких ми працюємо</p>
+    <div class="bar"></div>
+  </div>
+
+  <div class="card review"><p>Дякуємо за урок, як завжди все чудово! Заняття проходять дуже цікаво, всі пояснення доступні для дитини.</p><div class="who">— Батьки учениці</div></div>
+  <div class="card review"><p>Ви гарно все пояснюєте та чудово, що спілкуєтесь з ними та даєте зворотний зв'язок.</p><div class="who">— Мама учениці</div></div>
+  <div class="card review"><p>Дякую за ваші уроки, дитина з задоволенням ходить і постійно питає, коли буде малювання!</p><div class="who">— Мама учня</div></div>
+  <div class="card review"><p>Ви мене вдихновили малювати самостійно після уроків.</p><div class="who">— Відгук учня</div></div>
+
+  <button class="btn" onclick="signUp()">💬 Записатись і лишити свій відгук згодом</button>
+  <button class="btn btn-ghost" onclick="showPage('main-page')">На головну</button>
+</div>
+
+<!-- ================= ПРО НАТАЛІЮ ================= -->
+<div id="about-page" class="page">
+  <div class="about-top">
+    <div class="avatar"><div class="avatar-inner" data-avatar><img src="images/natalia.jpg" alt="Наталія Гвоздікова" onerror="this.remove()"><span class="initials">НГ</span></div></div>
+    <div class="about-name">Наталія Гвоздікова</div>
+    <div class="about-role">Художниця, власниця студії та викладачка</div>
+  </div>
+
+  <div class="card">
+    <p class="about-text">Наші заняття — це не просто «намалювати картинку». Це місце, де дитина вчиться фантазувати, помічати красу навколо, поєднувати кольори та сміливо проявляти себе через творчість.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag sun">Моя історія</span>
+    <h3>Від сумнівів до власної студії</h3>
+    <ol class="steps">
+      <li>Навчалась на художника в Миколаївському філіалі Київського національного університету культури і мистецтв.</li>
+      <li>Довго думала, що малювання «несерйозно» і на ньому не заробиш, тож працювала продавчинею та тренеркою.</li>
+      <li>Зрозуміла, що малювання дає найбільше задоволення, і відкрила власну студію, де учні розкривають творчий потенціал.</li>
+      <li>Коли довелось закрити студію, перейшла на онлайн-викладання й не залишила своїх учнів.</li>
+      <li>Знову відкрила студію в самому центрі Миколаєва та продовжує навчати і наживо, і онлайн.</li>
+    </ol>
+  </div>
+
+  <div class="quote" style="padding:2px 6px 14px;">Зараз я відчуваю гордість за шлях, який пройшла. Це було нелегко, але це шлях до себе, до своєї мрії…</div>
+
+  <div class="values">
+    <div class="value"><i>🌱</i><div><b>Творче мислення</b>Дитина вчиться фантазувати й не боятися експериментувати.</div></div>
+    <div class="value"><i>🧡</i><div><b>Тепла атмосфера</b>Багато спілкування, підтримки й творчості на кожному занятті.</div></div>
+    <div class="value"><i>🎨</i><div><b>Різні матеріали</b>Акварель, гуаш, олівці, пастель, а для дорослих — олія та акрил.</div></div>
+    <div class="value"><i>💬</i><div><b>Зрозуміле пояснення</b>Кожну тему розповідаємо просто й цікаво, з індивідуальним зворотним зв'язком.</div></div>
+  </div>
+
+  <div class="contact-block">
+    <div class="t">Перше заняття — безкоштовно</div>
+    <div class="s">Для запису напишіть у Директ — підберемо групу та зручний час.</div>
+    <button class="btn" style="margin:6px 0;" onclick="signUp()">Записатись у Direct</button>
+    <button class="btn btn-tg btn-small" id="tg-btn" style="display:none;" onclick="openTelegram()">Написати в Telegram</button>
+    <button class="btn btn-ghost btn-small" onclick="openLink(CONFIG.instagram)">Instagram @nataligvozdikovaa</button>
+  </div>
+</div>
+
+<!-- ================= LIGHTBOX ================= -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lb-img" src="" alt="">
+  <p id="lb-cap"></p>
+  <button onclick="closeLightbox()">Закрити</button>
+</div>
+
+<!-- ================= НИЖНЯ НАВІГАЦІЯ ================= -->
+<div class="bottom-nav">
+  <button class="nav-item active" data-page="main-page" onclick="showPage('main-page')"><span class="nav-icon">🏠</span>Головна</button>
+  <button class="nav-item" data-page="lessons-page" onclick="showPage('lessons-page')"><span class="nav-icon">🖌️</span>Заняття</button>
+  <button class="nav-item" data-page="works-page" onclick="showPage('works-page')"><span class="nav-icon">🖼️</span>Роботи</button>
+  <button class="nav-item" data-page="reviews-page" onclick="showPage('reviews-page')"><span class="nav-icon">💌</span>Відгуки</button>
+  <button class="nav-item" data-page="about-page" onclick="showPage('about-page')"><span class="nav-icon">👩‍🎨</span>Про мене</button>
+</div>
+
+<script>
+  /* ====== НАЛАШТУВАННЯ: змінюйте тут, не чіпаючи розмітку ====== */
+  const CONFIG = {
+    instagram: 'https://www.instagram.com/nataligvozdikovaa',
+    directLink: 'https://ig.me/m/nataligvozdikovaa', // запис через Direct
+    telegramUsername: ''                              // напр. 'natali_username' — тоді з'явиться кнопка Telegram
+  };
+
+  /* Роботи учнів. Щоб додати фото: покладіть файл у images/works/ і впишіть шлях у поле img.
+     Без img показується кольорова заглушка. */
+  const CATEGORIES = [
+    { id:'all',    label:'Усі' },
+    { id:'arch',   label:'Архітектура', cls:'g-arch',    icon:'🏰' },
+    { id:'still',  label:'Натюрморти',  cls:'g-still',   icon:'🌹' },
+    { id:'people', label:'Люди',        cls:'g-people',  icon:'👧' },
+    { id:'animals',label:'Тварини',     cls:'g-animals', icon:'🦊' },
+    { id:'land',   label:'Пейзажі',     cls:'g-land',    icon:'🏡' },
+    { id:'pencil', label:'Олівцем',     cls:'g-pencil',  icon:'✏️' }
+  ];
+  const WORKS = [
+    { cat:'arch',    title:'Вежа з годинником', img:'images/works/arch-1.jpg' },
+    { cat:'still',   title:'Глечик із трояндами', img:'images/works/still-1.jpg' },
+    { cat:'people',  title:'Дівчина з бантом', img:'images/works/people-1.jpg' },
+    { cat:'animals', title:'Лисичка та пташка', img:'images/works/animals-1.jpg' },
+    { cat:'land',    title:'Будиночок серед лугу', img:'images/works/land-1.jpg' },
+    { cat:'pencil',  title:'Коргі простим олівцем', img:'images/works/pencil-1.jpg' }
+  ];
+
+  /* ====== Telegram WebApp ====== */
+  const tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+  const navStack = ['main-page'];
+
+  if (tg){
+    tg.ready();
+    tg.expand();
+    try { tg.setHeaderColor('#fbf6ee'); tg.setBackgroundColor('#fbf6ee'); } catch(e){}
+    if (tg.BackButton) tg.BackButton.onClick(goBack);
+  }
+
+  function haptic(style){
+    if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred(style || 'light');
+  }
+  function updateBackButton(){
+    if (!tg || !tg.BackButton) return;
+    if (navStack.length > 1) tg.BackButton.show(); else tg.BackButton.hide();
+  }
+  function updateBottomNav(pageId){
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.toggle('active', i.dataset.page === pageId));
+  }
+  function showPage(pageId, isBack){
+    haptic('light');
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    window.scrollTo(0,0);
+    updateBottomNav(pageId);
+    if (!isBack && navStack[navStack.length-1] !== pageId) navStack.push(pageId);
+    updateBackButton();
+  }
+  function goBack(){
+    if (document.getElementById('lightbox').classList.contains('open')){ closeLightbox(); return; }
+    if (navStack.length > 1){
+      navStack.pop();
+      showPage(navStack[navStack.length-1], true);
+    }
+  }
+  function openLink(url){
+    haptic('medium');
+    if (tg && tg.openLink) tg.openLink(url); else window.open(url, '_blank');
+  }
+  function signUp(){ openLink(CONFIG.directLink); }
+  function openTelegram(){
+    const u = CONFIG.telegramUsername.replace('@','');
+    const url = 'https://t.me/' + u;
+    haptic('medium');
+    if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url, '_blank');
+  }
+
+  /* ====== Галерея ====== */
+  let activeCat = 'all';
+
+  function renderFilters(){
+    const box = document.getElementById('filters');
+    box.innerHTML = '';
+    CATEGORIES.forEach(c => {
+      const b = document.createElement('button');
+      b.className = 'filter' + (c.id === activeCat ? ' active' : '');
+      b.textContent = c.label;
+      b.onclick = () => { haptic('light'); activeCat = c.id; renderFilters(); renderGallery(); };
+      box.appendChild(b);
+    });
+  }
+
+  function renderGallery(){
+    const box = document.getElementById('gallery');
+    box.innerHTML = '';
+    WORKS.filter(w => activeCat === 'all' || w.cat === activeCat).forEach(w => {
+      const cat = CATEGORIES.find(c => c.id === w.cat);
+      const el = document.createElement('div');
+      el.className = 'work noimg ' + cat.cls;
+      el.innerHTML = '<span class="ph">' + cat.icon + '</span><div class="cap"></div>';
+      el.querySelector('.cap').textContent = w.title;
+
+      if (w.img){
+        const im = new Image();
+        im.alt = w.title;
+        im.onload = () => {
+          el.classList.remove('noimg');
+          el.insertBefore(im, el.firstChild);
+          el.querySelector('.ph').style.display = 'none';
+          el.onclick = () => openLightbox(w.img, w.title);
+        };
+        im.src = w.img; // якщо файла немає — лишається заглушка
+      }
+      box.appendChild(el);
+    });
+  }
+
+  function openLightbox(src, cap){
+    haptic('light');
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lb-cap').textContent = cap || '';
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
+
+  /* ====== Старт ====== */
+  if (CONFIG.telegramUsername) document.getElementById('tg-btn').style.display = 'flex';
+  renderFilters();
+  renderGallery();
+  updateBackButton();
+</script>
+</body>
+</html>
